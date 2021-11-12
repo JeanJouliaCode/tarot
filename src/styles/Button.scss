@@ -1,0 +1,23 @@
+@import 'styles/_colors.scss';
+
+.button{
+  height: 56px;
+  border-radius: 20px;
+  padding: 0 72px;
+  font-size: 24px;
+  background: $red;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+
+  &_disabled{
+    pointer-events: none;
+    background: $gray;
+  }
+}
+
+.button:hover{
+  background: $red-2;
+  box-shadow: 3px 4px 10px rgba(217, 4, 41, 0.36);
+}
+
