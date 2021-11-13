@@ -21,6 +21,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      align-items: center;
+      margin-bottom: 150px;
     }
   }
 
@@ -37,7 +39,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin-bottom: 30%;
     }    
   }
 }
@@ -45,7 +46,10 @@
 @media (max-width:541px) {
 
   .avatar_container { 
-    margin-bottom: 0px;
     align-items: center;
+  }
+
+  .pseudo_container {
+    margin-bottom: 0px;
   }
 }

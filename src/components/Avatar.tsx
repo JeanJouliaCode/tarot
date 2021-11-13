@@ -1,39 +1,34 @@
 import 'styles/Avatar.scss'
-import refresh from 'assets/refresh.svg'
-import {useState} from 'react'
-import { AvatarGenerator } from 'random-avatar-generator';
+import refreshIcon from 'assets/refresh.svg'
 
 interface AvatarProps {
   url: string;
   outline: boolean;
+  small: boolean;
+  refreshAvatar:Function;
 }
 
 Avatar.defaultProps = {
   url: null,
   outline: false,
+  small: false,
+  refreshAvatar: null
 };
 
-export default function Avatar({url,outline}:AvatarProps){
-  const [avatar , setAvatar] = useState(url || getAvatarUrl());
+export default function Avatar({url,outline,small ,refreshAvatar}:AvatarProps){
 
-  const refreshAvatar = ()=>{
-    setAvatar(getAvatarUrl())
+  const refresh = ()=>{
+    refreshAvatar()
   }
 
   return (
     <div className="avatar">
-      <div className={`avatar__wrapper ${outline ? 'avatar--outined' : ''}`}>
-        <img src={avatar} alt="avatar face"  className="avatar__face"/>
+      <div className={`${small ?'avatar__wrapper_small': 'avatar__wrapper'} ${outline ? 'avatar--outined' : ''}`}>
+        <img src={url} alt="avatar face"  className="avatar__face"/>
       </div>
-      {!url && <button className="avatar__refresh" onClick={refreshAvatar}>
-        <img src={refresh} alt="refresh avatar" />
+      {!!refreshAvatar && <button className="avatar__refresh" onClick={refresh}>
+        <img src={refreshIcon} alt="refresh avatar" />
       </button>}
     </div>
   )
-}
-
-function getAvatarUrl(){
-  const generator = new AvatarGenerator();
-  let avatarUrl =  generator.generateRandomAvatar()
-  return avatarUrl.replace("Circle","Transparent") 
 }

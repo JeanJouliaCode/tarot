@@ -2,7 +2,6 @@
 
 .avatar{
   position: relative;
-  margin-bottom: 10px;
 
   &__wrapper{
     width: 220px;
@@ -12,6 +11,16 @@
     background: $gray-2;
     position: relative;
     overflow: hidden;
+
+    &_small{
+      width: 32px;
+      height: 32px;
+      border: 4px solid #FFFFFF;
+      border-radius: 50%;
+      background: $gray-2;
+      position: relative;
+      overflow: hidden;    
+    }
   }
 
   &--outined{
