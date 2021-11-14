@@ -51,7 +51,7 @@ exports.joinGame = functions.https.onCall(async (data) => {
     } else {
       throw new functions.https.HttpsError(
           "permission-denied",
-          "an error has occured while joining the game lobby"
+          "1n error has occured while joining the game lobby"
       );
     }
   } catch (error) {

@@ -11,21 +11,25 @@ async function createGame(url : string , userID: string , userName: string){
   return response.data
 }
 
-async function joinGame(url : string , userID: string , userName: string , gameID : string){
+function joinGame(url : string , userID: string , userName: string , gameID : string){
   const body  = {url , userID , userName , gameID}
   
   savePlayerID(userID)
-  const response = await httpsCallable(firebase.functions ,'joinGame')(body);
-  
-  return response.data
+  httpsCallable(firebase.functions ,'joinGame')(body).then((response)=>{
+    return response.data
+  }).catch(error => {
+    throw error;
+  });
 }
 
-async function kickUser(userID: string, gameID : string){
+function kickUser(userID: string, gameID : string){
   const body  = {userID,gameID}
 
-  const response = await httpsCallable(firebase.functions ,'kickUser')(body);
-  
-  return response.data
+  httpsCallable(firebase.functions ,'kickUser')(body).then(response=>{
+    return response.data
+  }).catch(error => {
+    throw error
+  }) 
 }
 
 
