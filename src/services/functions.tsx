@@ -1,34 +1,37 @@
 import firebase from 'services/firebase'
 import {  httpsCallable } from 'firebase/functions';
 import {savePlayerID} from 'services/localStorage'
+import { FirebaseError } from '@firebase/util';
 
-async function createGame(url : string , userID: string , userName: string){
+function createGame(url : string , userID: string , userName: string){
   const body  = {url , userID , userName}
 
   savePlayerID(userID)
-  const response = await httpsCallable(firebase.functions ,'createGame')(body);
-  
-  return response.data
+  return httpsCallable(firebase.functions ,'createGame')(body).then((response)=>{
+    return response.data
+  }).catch((error : FirebaseError) =>{
+    throw error.message;
+  })
 }
 
 function joinGame(url : string , userID: string , userName: string , gameID : string){
   const body  = {url , userID , userName , gameID}
   
   savePlayerID(userID)
-  httpsCallable(firebase.functions ,'joinGame')(body).then((response)=>{
+  return httpsCallable(firebase.functions ,'joinGame')(body).then((response)=>{
     return response.data
-  }).catch(error => {
-    throw error;
+  }).catch((error : FirebaseError) => {
+    throw error.message;
   });
 }
 
 function kickUser(userID: string, gameID : string){
   const body  = {userID,gameID}
 
-  httpsCallable(firebase.functions ,'kickUser')(body).then(response=>{
+  return httpsCallable(firebase.functions ,'kickUser')(body).then(response=>{
     return response.data
-  }).catch(error => {
-    throw error
+  }).catch((error : FirebaseError) => {
+    throw error.message;
   }) 
 }
 

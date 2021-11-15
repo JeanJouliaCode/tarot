@@ -21,7 +21,6 @@ exports.createGame = functions.https.onCall(async (data) => {
     const gameDocRef = await admin.firestore().collection("games").add({
       users: [user],
       state: "lobby",
-      blackList: [],
     });
 
     return gameDocRef.id;
@@ -46,8 +45,8 @@ exports.joinGame = functions.https.onCall(async (data) => {
       admin: false,
     };
 
-    if (game && game.users) {
-      gameSnashot.ref.update({users: [...game.users, user]});
+    if (game && game.users && !game.users.find((_user : userInterface)=>_user.id == user.id )) {
+      await gameSnashot.ref.update({users: [...game.users, user]});
     } else {
       throw new functions.https.HttpsError(
           "permission-denied",
@@ -70,9 +69,8 @@ exports.kickUser = functions.https.onCall(async (data) => {
 
     if (game && game.users) {
       const users = [...game.users];
-      const blackList = [...game.blackList, data.userID];
 
-      gameSnashot.ref.update({blackList, users: users.filter((user: userInterface) => user.id !== data.userID)});
+      gameSnashot.ref.update({users: users.filter((user: userInterface) => user.id !== data.userID)});
     } else {
       throw new functions.https.HttpsError(
           "permission-denied",
