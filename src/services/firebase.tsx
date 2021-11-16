@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore,connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,14 +14,20 @@ const firebaseConfig = {
   storageBucket: "tarot-b3e06.appspot.com",
   messagingSenderId: "472741955571",
   appId: "1:472741955571:web:26c8fcc9608d78a28af486",
-  measurementId: "G-2RHRYPTBEH"
+  measurementId: "G-2RHRYPTBEH",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore()
-const functions = getFunctions(app)
+const db = getFirestore();
+const functions = getFunctions(app);
 connectFunctionsEmulator(functions, "localhost", 5001);
-connectFirestoreEmulator(db, 'localhost', 8080);
-export default {db,app,functions};
+connectFirestoreEmulator(db, "localhost", 8080);
 
+const exportedObject = {
+  db,
+  app,
+  functions,
+};
+
+export default exportedObject;
