@@ -18,43 +18,43 @@ export default function Home() {
   const [redirect, setRedirect] = useState(false);
   const [gameID, setGameID] = useState("");
   const [disabled, setDisabled] = useState(false);
-  let { gameIDParam } = useParams<string>();
+  let { id: gameIDParam } = useParams<string>();
   const invited: boolean = !!gameIDParam;
   const showMessage = useContext(toaster);
 
+  //create the game
   const create = async () => {
     setDisabled(true);
-    if (invited) {
-      try {
-        await joinGame(
-          avatarUrl,
-          generateID(),
-          pseudo ?? basePseudo,
-          gameIDParam!
-        );
-        setRedirect(true);
-      } catch (error) {
-        showMessage(error as string);
-      }
-    } else {
-      try {
-        var ID = await createGame(
-          avatarUrl,
-          generateID(),
-          pseudo ?? basePseudo
-        );
-
-        if (typeof ID === "string") setGameID(ID);
-        setRedirect(true);
-      } catch (error) {
-        showMessage(error as string);
-      }
+    try {
+      var fetchedgameID = await createGame(avatarUrl, generateID(), pseudo);
+      setGameID(fetchedgameID as string);
+      setRedirect(true);
+    } catch (error) {
+      showMessage(error as string);
     }
     setDisabled(false);
   };
 
+  //join the game
+  const join = async () => {
+    setDisabled(true);
+    try {
+      await joinGame(
+        avatarUrl,
+        generateID(),
+        pseudo ?? basePseudo,
+        gameIDParam!
+      );
+      setRedirect(true);
+    } catch (error) {
+      showMessage(error as string);
+    }
+    setDisabled(false);
+  };
+
+  //redirect to the lobby page
   if (redirect && !invited) {
-    return <Navigate to={`lobby/${gameID}`} />;
+    return <Navigate to={`../lobby/${gameID}`} />;
   } else if (redirect && invited) {
     return <Navigate to={`../lobby/${gameIDParam}`} />;
   }
@@ -66,14 +66,16 @@ export default function Home() {
   return (
     <div className="page home">
       <div className="home__container">
-        <div className="title">
-          <Text content="Tarot" />
-        </div>
-        {invited && (
-          <div className="">
-            <Text content="You've been invited!" />
+        <div>
+          <div className="title">
+            <Text content="Tarot" />
           </div>
-        )}
+          {invited && (
+            <div className="">
+              <Text content="You've been invited!" />
+            </div>
+          )}
+        </div>
         <div className="home__avatar_container pseudo_container">
           <Avatar refreshAvatar={generateUrl} url={avatarUrl} />
           <div className="home__pseudo_container avatar_container">
@@ -87,7 +89,7 @@ export default function Home() {
             <Button
               disabled={disabled}
               label={invited ? "Join" : "Create game"}
-              onClick={create}
+              onClick={invited ? join : create}
             />
           </div>
         </div>
