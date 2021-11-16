@@ -1,0 +1,49 @@
+@import 'styles/_colors.scss';
+
+.avatar{
+  position: relative;
+
+  &__wrapper{
+    width: 220px;
+    height: 220px;
+    border: 8px solid #FFFFFF;
+    border-radius: 160px;
+    background: $gray-2;
+    position: relative;
+    overflow: hidden;
+
+    &_small{
+      width: 32px;
+      height: 32px;
+      border: 4px solid #FFFFFF;
+      border-radius: 50%;
+      background: $gray-2;
+      position: relative;
+      overflow: hidden;    
+    }
+  }
+
+  &--outined{
+    border : 8px solid $red;
+  }
+
+  &__refresh{
+    width: 60px;
+    height: 60px;
+    background: white;
+    position: absolute;
+    top: 180px;
+    left: 180px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__face{
+    width: 100%;
+  }
+}
