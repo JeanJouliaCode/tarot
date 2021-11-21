@@ -6,7 +6,7 @@ import Avatar from "components/Avatar";
 import Button from "components/Button";
 import { getUrlBase } from "services/utils";
 import { getPlayerID } from "services/localStorage";
-import { kickUser } from "services/functions";
+import { kickUser, startGame } from "services/functions";
 import cross from "assets/cross.svg";
 import crown from "assets/crown.svg";
 import { useParams, Navigate } from "react-router-dom";
@@ -17,12 +17,16 @@ export default function Lobby() {
   const [redirect, setRedirect] = useState(false);
   const showMessage = useContext(toaster);
 
-  let { id: gameID } = useParams<string>();
+  const { id: gameID } = useParams<string>();
 
   const { error: fetchError, isPending, data } = useGame(gameID ?? "");
 
   if (redirect) {
     return <Navigate to={`../../`} />;
+  }
+
+  if (!isPending && data && data?.state === "start") {
+    return <Navigate to={`../../game/${gameID}`} />;
   }
 
   if (fetchError) {
@@ -43,8 +47,8 @@ export default function Lobby() {
     );
   };
 
-  const startGame = () => {
-    console.log("start");
+  const start = () => {
+    startGame(gameID!);
   };
 
   const isUserAdmin = () => {
@@ -95,7 +99,7 @@ export default function Lobby() {
                 <Text content="Ready to play ?" />
               </div>
             )}
-            {isUserAdmin() && <Button label={startText} onClick={startGame} />}
+            {isUserAdmin() && <Button label={startText} onClick={start} />}
           </div>
         </div>
       )}

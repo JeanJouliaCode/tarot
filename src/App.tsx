@@ -1,6 +1,7 @@
 import "./App.scss";
 import Home from "pages/Home";
 import Lobby from "pages/Lobby";
+import Board from "pages/Board";
 import Text from "components/Text";
 import { createContext, useState } from "react";
 import "services/firebase";
@@ -32,6 +33,7 @@ function App() {
         <Routes>
           <Route path="/lobby/:id" element={<Lobby />} />
           <Route path="/invite/:id" element={<Home />} />
+          <Route path="/game/:id" element={<Board />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </toaster.Provider>

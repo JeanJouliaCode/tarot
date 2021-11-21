@@ -1,0 +1,29 @@
+@import 'styles/_colors.scss';
+
+.buttonQ{
+  width: 366px;
+  height: 48px;
+  border-radius: 48px;
+  padding: 0px 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+
+  &__normal{
+    background: #FFFFFF;
+  }
+
+  &__valide{
+    background: $light-green;
+  }
+
+  &__false{
+    background: $light-red;
+  }
+}
