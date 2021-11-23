@@ -2,8 +2,10 @@ import { Component, useContext } from "react";
 import useGame from "hooks/useGame";
 import Waiting from "components/WaitingRoom";
 import Timer from "components/Timer";
+import Score from "components/Score";
 import { useParams } from "react-router-dom";
 import Question from "components/Question";
+import { decodeHtml } from "services/utils";
 import { toaster } from "App";
 import "styles/Board.scss";
 import "styles/player.scss";
@@ -86,6 +88,9 @@ class BoarPage extends Component<IProps, IState> {
   };
 
   render() {
+    if (this.props.game.state === "score") {
+      return <Score users={this.props.game.users} />;
+    }
     if (this.state.subState === "timer") {
       return <Timer next={this.startQuestions} />;
     }
@@ -98,9 +103,9 @@ class BoarPage extends Component<IProps, IState> {
       return (
         <Question
           question={[
-            ques.category,
-            ques.difficulty,
-            ques.question,
+            decodeHtml(ques.category),
+            decodeHtml(ques.difficulty),
+            decodeHtml(ques.question),
             ques.answers,
           ]}
           sendResult={this.handleResult}

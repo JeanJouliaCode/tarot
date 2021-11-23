@@ -21,8 +21,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const functions = getFunctions(app);
-//connectFunctionsEmulator(functions, "localhost", 5001);
-//connectFirestoreEmulator(db, "localhost", 8080);
+connectFunctionsEmulator(functions, "localhost", 5001);
+connectFirestoreEmulator(db, "localhost", 8080);
 
 const exportedObject = {
   db,

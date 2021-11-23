@@ -77,7 +77,7 @@ export default function Home() {
           )}
         </div>
         <div className="home__avatar_container pseudo_container">
-          <Avatar refreshAvatar={generateUrl} url={avatarUrl} />
+          <Avatar refreshAvatar={generateUrl} url={avatarUrl} size="big" />
           <div className="home__pseudo_container avatar_container">
             <Text content="Choose a character and a name" />
             <input

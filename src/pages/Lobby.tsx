@@ -125,7 +125,7 @@ function playerList(users: any[], deleteUser: Function) {
     <div className="lobby__list">
       {users.map((user, index) => (
         <div className="lobby__item" key={index}>
-          <Avatar url={user.url} small={true} />
+          <Avatar url={user.url} size="small" />
           <div className="lobby__spacing"></div>
           <Text content={user?.name} />
           {(user.admin || isUserAdmin()) && (

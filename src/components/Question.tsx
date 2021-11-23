@@ -2,31 +2,34 @@ import "styles/question.scss";
 import ButtonQuestion from "components/ButtonQuestion";
 import Text from "components/Text";
 import { useEffect, useState } from "react";
+import { decodeHtml } from "services/utils";
 
 interface questionProps {
   question: any;
   sendResult: Function;
 }
 
-export default function Question({ question, sendResult }: questionProps) {
-  const [questions, setQuestions] = useState<any>([]);
-  const [reveal, setReveal] = useState<any>(false);
+export default function Question({
+  question: questionData,
+  sendResult,
+}: questionProps) {
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [reveal, setReveal] = useState<Boolean>(false);
 
   useEffect(() => {
     setReveal(false);
-    var tmp = question[3].map((q: any) => {
-      return { label: q.value, state: q.state };
+    var tmp = questionData[3].map((question: any) => {
+      return { label: decodeHtml(question.value), state: question.state };
     });
 
     setQuestions(tmp);
-  }, [question]);
+  }, [questionData]);
 
-  const click = (value: any) => {
-    console.log("click");
+  const click = (answer: number) => {
     setReveal(true);
     setTimeout(() => {
-      sendResult(value.state);
-    }, 2000);
+      sendResult(questions[answer].state);
+    }, 1000);
   };
 
   return (
@@ -34,9 +37,11 @@ export default function Question({ question, sendResult }: questionProps) {
       <div className="question__header" />
       <div className="question__main">
         <div className="question__info">
-          <Text content={`${question[0]} - ${question[1]}`.toUpperCase()} />
+          <Text
+            content={`${questionData[0]} - ${questionData[1]}`.toUpperCase()}
+          />
           <div className="question__title">
-            <Text content={`${question[2]}`} />
+            <Text content={`${questionData[2]}`} />
           </div>
         </div>
         {questions.length > 0 && (
@@ -46,28 +51,28 @@ export default function Question({ question, sendResult }: questionProps) {
                 reveal ? (questions[0].state ? "valide" : "false") : "normal"
               }
               label={questions[0].label}
-              onClick={() => click(questions[0])}
+              onClick={() => click(0)}
             />
             <ButtonQuestion
               type={
                 reveal ? (questions[1].state ? "valide" : "false") : "normal"
               }
               label={questions[1].label}
-              onClick={() => click(questions[1])}
+              onClick={() => click(1)}
             />
             <ButtonQuestion
               type={
                 reveal ? (questions[2].state ? "valide" : "false") : "normal"
               }
               label={questions[2].label}
-              onClick={() => click(questions[2])}
+              onClick={() => click(2)}
             />
             <ButtonQuestion
               type={
                 reveal ? (questions[3].state ? "valide" : "false") : "normal"
               }
               label={questions[3].label}
-              onClick={() => click(questions[3])}
+              onClick={() => click(3)}
             />
           </div>
         )}
